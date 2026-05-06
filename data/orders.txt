@@ -1,0 +1,5 @@
+1|user1|830000|5~Apple Pencil Tips Pack~2~iPad~2~190000;3~iPad Air Folio Case~2~iPad~1~450000
+2|user1|980000|7~20W USB-C Charger~4~Charging~2~490000
+3|user1|580000|5~Apple Pencil Tips Pack~2~iPad~1~190000;12~Laptop Sleeve 13 inch~6~Universal~1~390000
+4|user1|730000|13~iPad Pro 12.9 inch Clear Case~2~iPad~1~300000;1~iPhone 15 Clear Case~1~iPhone~1~250000;8~USB-C to USB-C Cable 1m~4~Charging~1~180000
+5|user1|900000|3~iPad Air Folio Case~2~iPad~2~450000

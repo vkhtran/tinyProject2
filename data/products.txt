@@ -1,0 +1,12 @@
+1|iPhone 15 Clear Case|1|iPhone|iPhone 15|case,clear,protection|250000|19|3|3
+2|iPhone 15 Pro Silicone Case|1|iPhone|iPhone 15 Pro|case,silicone,protection|320000|15|2|0
+3|iPad Air Folio Case|2|iPad|iPad Air|case,folio,protection|450000|7|0|3
+4|iPad Paperlike Screen Protector|5|Protection|iPad Air,iPad Pro|paperlike,screen,protection,writing|290000|18|3|1
+5|Apple Pencil Tips Pack|2|iPad|iPad,Apple Pencil|pencil,drawing,writing|190000|22|1|3
+7|20W USB-C Charger|4|Charging|iPhone,iPad,AirPods|charger,usb-c,fast-charge|490000|12|2|5
+8|USB-C to USB-C Cable 1m|4|Charging|iPhone,iPad,AirPods|cable,usb-c,charging|180000|29|0|1
+9|MagSafe Power Bank|4|Charging|iPhone|power-bank,magsafe,charging|890000|8|1|2
+10|Tempered Glass for iPhone 15|5|Protection|iPhone 15|tempered-glass,screen,protection|150000|22|0|0
+11|Tempered Glass for iPad Air|5|Protection|iPad Air|tempered-glass,screen,protection|240000|16|0|0
+12|Laptop Sleeve 13 inch|6|Universal|Laptop,iPad|sleeve,bag,protection|390000|8|1|1
+13|iPad Pro 12.9 inch Clear Case|2|iPad|iPad Pro 12.9 inch,iPad Pro|case,clear,protection|300000|14|1|1
