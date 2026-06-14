@@ -2,12 +2,10 @@
 
 #include <map>
 
-using namespace std;
-
 class InteractionHistory {
 private:
-    map<int, int> viewedProducts;
-    map<int, int> purchasedProducts;
+    std::map<int, int> viewedProducts;
+    std::map<int, int> purchasedProducts;
 
 public:
     InteractionHistory();
@@ -21,8 +19,8 @@ public:
     int getTotalViews() const;
     int getTotalPurchases() const;
 
-    const map<int, int>& getViewedProducts() const;
-    const map<int, int>& getPurchasedProducts() const;
+    const std::map<int, int>& getViewedProducts() const;
+    const std::map<int, int>& getPurchasedProducts() const;
 
     void clear();
 };

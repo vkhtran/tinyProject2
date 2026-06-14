@@ -4,11 +4,9 @@
 
 #include "CartItem.h"
 
-using namespace std;
-
 class ShoppingCart {
 private:
-    vector<CartItem> items;
+    std::vector<CartItem> items;
 
 public:
     ShoppingCart();
@@ -22,8 +20,8 @@ public:
     double calculateTotal() const;
     int getItemCount() const;
 
-    vector<CartItem>& getItems();
-    const vector<CartItem>& getItems() const;
+    std::vector<CartItem>& getItems();
+    const std::vector<CartItem>& getItems() const;
 
     void displayCart() const;
 };

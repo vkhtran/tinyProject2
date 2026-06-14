@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 enum class Category {
     iPhone = 1,
     iPad = 2,
@@ -14,6 +12,6 @@ enum class Category {
     Universal = 6
 };
 
-string categoryToString(Category category);
+std::string categoryToString(Category category);
 Category intToCategory(int categoryId);
-vector<Category> getAllCategories();
+std::vector<Category> getAllCategories();

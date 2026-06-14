@@ -126,10 +126,18 @@ bool Product::isInStock() const {
 void Product::displayForCustomer() const {
     cout << "ID: " << id << "\n"
          << "Name: " << name << "\n"
+         << "Price: " << fixed << setprecision(0) << price << "\n"
+         << "Sold: " << purchaseCount << "\n"
+         << "Stock: " << stock << "\n";
+}
+
+void Product::displayForAdmin() const {
+    cout << "ID: " << id << "\n"
+         << "Name: " << name << "\n"
          << "Category: " << categoryToString(category) << "\n"
          << "Price: " << fixed << setprecision(0) << price << "\n"
-         << "Stock: " << stock << "\n"
          << "Sold: " << purchaseCount << "\n"
+         << "Stock: " << stock << "\n"
          << "Compatible Devices: ";
     for (size_t i = 0; i < compatibleDevices.size(); ++i) {
         if (i > 0) {
@@ -145,13 +153,8 @@ void Product::displayForCustomer() const {
         }
         cout << tags[i];
     }
-    cout << "\n";
-}
-
-void Product::displayForAdmin() const {
-    displayForCustomer();
-    cout << "Views: " << viewCount << "\n"
-         << "Purchases: " << purchaseCount << "\n";
+    cout << "\n"
+         << "Views: " << viewCount << "\n";
 }
 
 void Product::display() const {

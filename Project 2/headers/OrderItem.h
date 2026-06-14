@@ -2,8 +2,6 @@
 
 #include "Product.h"
 
-using namespace std;
-
 class OrderItem {
 private:
     Product product;

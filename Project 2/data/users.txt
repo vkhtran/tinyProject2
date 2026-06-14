@@ -1,0 +1,4 @@
+user1|1111|customer
+user2|2222|customer
+admin1|0000|admin
+userba|3333|customer

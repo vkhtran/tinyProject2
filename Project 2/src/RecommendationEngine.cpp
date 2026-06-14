@@ -172,3 +172,47 @@ vector<Product> RecommendationEngine::recommendProducts(
 
     return recommendations;
 }
+
+vector<RecommendationResult> RecommendationEngine::recommendProductsWithScores(
+    const Customer& customer,
+    const vector<Product>& products,
+    int topN
+) const {
+    vector<RecommendationResult> scoredProducts;
+    const InteractionHistory& history = customer.getInteractionHistory();
+    set<string> userInterestSet = buildUserInterestSet(customer, products);
+
+    for (const auto& product : products) {
+        if (!product.isInStock()) {
+            continue;
+        }
+
+        RecommendationResult result;
+        result.product = product;
+        result.viewScore = history.getViewCount(product.getId()) * 0.2;
+        result.purchaseScore = history.getPurchaseCount(product.getId()) * 0.8;
+        result.categoryBonus = getCategoryBonus(customer, product, products);
+        result.jaccardBonus =
+            calculateJaccardSimilarity(userInterestSet, buildProductFeatureSet(product));
+        result.finalScore = result.viewScore
+            + result.purchaseScore
+            + result.categoryBonus
+            + result.jaccardBonus;
+
+        scoredProducts.push_back(result);
+    }
+
+    sort(
+        scoredProducts.begin(),
+        scoredProducts.end(),
+        [](const RecommendationResult& left, const RecommendationResult& right) {
+            return left.finalScore > right.finalScore;
+        }
+    );
+
+    if (topN < static_cast<int>(scoredProducts.size())) {
+        scoredProducts.resize(topN);
+    }
+
+    return scoredProducts;
+}

@@ -4,23 +4,21 @@
 
 #include "OrderItem.h"
 
-using namespace std;
-
 class Order {
 private:
     int orderId;
-    string customerUsername;
-    vector<OrderItem> items;
+    std::string customerUsername;
+    std::vector<OrderItem> items;
     double totalAmount;
 
 public:
     Order();
-    Order(int orderId, const string& customerUsername);
+    Order(int orderId, const std::string& customerUsername);
 
     int getOrderId() const;
-    const string& getCustomerUsername() const;
+    const std::string& getCustomerUsername() const;
     double getTotalAmount() const;
-    const vector<OrderItem>& getItems() const;
+    const std::vector<OrderItem>& getItems() const;
 
     void addItem(const OrderItem& item);
     void calculateTotal();
