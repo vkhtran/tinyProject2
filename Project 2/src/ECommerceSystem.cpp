@@ -65,10 +65,6 @@ void printSuccess(const string& message) {
     cout << "\033[32m" << message << "\033[0m\n";
 }
 
-void printWarning(const string& message) {
-    cout << "\033[33m" << message << "\033[0m\n";
-}
-
 void printDanger(const string& message) {
     cout << "\033[31m" << message << "\033[0m\n";
 }
@@ -728,19 +724,6 @@ void ECommerceSystem::registerCustomer() {
     pauseScreen();
 }
 
-void ECommerceSystem::viewAllProducts() const {
-    if (products.empty()) {
-        cout << "No products available.\n";
-        return;
-    }
-
-    printSectionTitle("Product List");
-    for (const auto& product : products) {
-        product.display();
-        cout << "------------------\n";
-    }
-}
-
 void ECommerceSystem::viewAllProducts(Customer& customer) {
     while (true) {
         clearScreen();
@@ -1264,53 +1247,6 @@ void ECommerceSystem::showCustomerRecommendationsForAdmin(const Admin& admin) {
     pauseScreen();
 }
 
-void ECommerceSystem::searchProducts() const {
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    string keyword;
-    cout << "Enter product name or keyword: ";
-    getline(cin, keyword);
-
-    if (keyword.empty()) {
-        cout << "Keyword cannot be empty.\n";
-        return;
-    }
-
-    vector<string> keywordTokens = tokenizeSearchText(keyword);
-    if (keywordTokens.empty()) {
-        cout << "Keyword cannot be empty.\n";
-        return;
-    }
-
-    vector<const Product*> matchedProducts;
-    for (const auto& product : products) {
-        string productSearchText = buildProductSearchText(product);
-        bool matchedAllTokens = true;
-
-        for (const auto& token : keywordTokens) {
-            if (productSearchText.find(token) == string::npos) {
-                matchedAllTokens = false;
-                break;
-            }
-        }
-
-        if (matchedAllTokens) {
-            matchedProducts.push_back(&product);
-        }
-    }
-
-    if (matchedProducts.empty()) {
-        cout << "No products matched your search.\n";
-        return;
-    }
-
-    printSectionTitle("Search Results");
-    for (const auto* product : matchedProducts) {
-        product->displayForCustomer();
-        cout << "------------------\n";
-    }
-}
-
 void ECommerceSystem::searchProducts(Customer& customer) {
     int searchChoice = -1;
     while (searchChoice != 0) {
@@ -1526,127 +1462,6 @@ bool ECommerceSystem::handleProductListAction(
     return true;
 }
 
-void ECommerceSystem::browseProducts(Customer& customer) {
-    int choice = -1;
-    while (choice != 0) {
-        printSectionTitle("Product List");
-        for (const auto& product : products) {
-            product.displayForCustomer();
-            cout << "------------------\n";
-        }
-
-        cout << "1. View product detail\n";
-        cout << "2. Add product to cart\n";
-        cout << "0. Back\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(10000, '\n');
-            cout << "Invalid input.\n";
-            continue;
-        }
-
-        if (choice == 1) {
-            int productId;
-            cout << "Enter product ID to view: ";
-            cin >> productId;
-            if (cin.fail()) {
-                cin.clear();
-                cin.ignore(10000, '\n');
-                cout << "Invalid product ID.\n";
-                continue;
-            }
-            viewProductDetail(customer, productId);
-
-            int detailChoice = -1;
-            while (detailChoice != 0) {
-                cout << "1. Add product to cart\n"
-                     << "0. Back\n"
-                     << "Enter your choice: ";
-                cin >> detailChoice;
-
-                if (cin.fail()) {
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                    cout << "Invalid input.\n";
-                    continue;
-                }
-
-                if (detailChoice == 1) {
-                    Product* product = findProductById(productId);
-                    if (product == nullptr) {
-                        cout << "Product not found.\n";
-                        break;
-                    }
-
-                    int currentQuantityInCart = 0;
-                    for (const auto& item : customer.getCart().getItems()) {
-                        if (item.getProduct().getId() == productId) {
-                            currentQuantityInCart = item.getQuantity();
-                            break;
-                        }
-                    }
-
-                    int maxCanAdd = product->getStock() - currentQuantityInCart;
-                    int quantity;
-                    if (promptQuantityWithStockLimit("Enter quantity, or 0 to cancel: ", maxCanAdd, quantity)) {
-                        addToCart(customer, productId, quantity);
-                    } else {
-                        cout << "Add to cart cancelled.\n";
-                    }
-                    pauseScreen();
-                    detailChoice = 0;
-                } else if (detailChoice != 0) {
-                    cout << "Invalid choice.\n";
-                }
-            }
-        } else if (choice == 2) {
-            int productId;
-            cout << "Enter product ID to add: ";
-            cin >> productId;
-
-            if (cin.fail()) {
-                cin.clear();
-                cin.ignore(10000, '\n');
-                cout << "Invalid product ID.\n";
-                continue;
-            }
-
-            if (productId == 0) {
-                cout << "Add to cart cancelled.\n";
-                continue;
-            }
-
-            Product* product = findProductById(productId);
-            if (product == nullptr) {
-                cout << "Product not found.\n";
-                continue;
-            }
-
-            int currentQuantityInCart = 0;
-            for (const auto& item : customer.getCart().getItems()) {
-                if (item.getProduct().getId() == productId) {
-                    currentQuantityInCart = item.getQuantity();
-                    break;
-                }
-            }
-
-            int maxCanAdd = product->getStock() - currentQuantityInCart;
-            int quantity;
-            if (promptQuantityWithStockLimit("Enter quantity, or 0 to cancel: ", maxCanAdd, quantity)) {
-                addToCart(customer, productId, quantity);
-            } else {
-                cout << "Add to cart cancelled.\n";
-            }
-            pauseScreen();
-        } else if (choice != 0) {
-            cout << "Invalid choice.\n";
-        }
-    }
-}
-
 void ECommerceSystem::updateCartMenu(Customer& customer) {
     bool backToCustomerMenu = false;
     while (!backToCustomerMenu) {
@@ -1829,52 +1644,6 @@ void ECommerceSystem::addToCart(Customer& customer, int productId, int quantity)
     customer.getCart().addProduct(*product, quantity);
     printSuccess("Added " + to_string(quantity) + " x " + product->getName()
         + " to cart successfully.");
-}
-
-void ECommerceSystem::removeFromCart(Customer& customer) {
-    if (customer.getCart().isEmpty()) {
-        cout << "Cart is empty.\n";
-        return;
-    }
-
-    int productId;
-    cout << "Enter product ID to remove from cart: ";
-    cin >> productId;
-
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(10000, '\n');
-        cout << "Invalid product ID.\n";
-        return;
-    }
-
-    if (productId <= 0) {
-        cout << "Product ID is invalid.\n";
-        return;
-    }
-
-    bool foundInCart = false;
-    for (const auto& item : customer.getCart().getItems()) {
-        if (item.getProduct().getId() == productId) {
-            foundInCart = true;
-            break;
-        }
-    }
-
-    if (!foundInCart) {
-        cout << "Product is not in the cart yet.\n";
-        return;
-    }
-
-    if (!confirmAction("Remove this product from cart?")) {
-        cout << "Remove product cancelled.\n";
-        return;
-    }
-
-    customer.getCart().removeProduct(productId);
-    printSuccess("Product removed from cart.");
-    cout << "Current total: " << fixed << setprecision(0)
-         << customer.getCart().calculateTotal() << "\n";
 }
 
 void ECommerceSystem::checkout(Customer& customer, bool requireConfirmation) {
@@ -2265,61 +2034,6 @@ void ECommerceSystem::deleteProduct(int productId) {
     products.erase(it, products.end());
     saveData();
     printSuccess("Product deleted successfully.");
-}
-
-void ECommerceSystem::showStatistics(int topN) const {
-    vector<Product> mostViewed = statisticsManager.getMostViewedProducts(products, topN);
-    vector<Product> bestSelling = statisticsManager.getBestSellingProducts(products, topN);
-    vector<Customer> activeUsers = statisticsManager.getMostActiveUsers(customers, topN);
-
-    printSectionTitle("System Statistics");
-
-    printSectionTitle("Most Viewed Products");
-    cout << "Showing top " << topN << " products\n";
-    if (mostViewed.empty()) {
-        cout << "No product data available.\n";
-    } else {
-        for (size_t i = 0; i < mostViewed.size(); ++i) {
-            cout << i + 1 << ". "
-                 << mostViewed[i].getName()
-                 << " | Views: " << mostViewed[i].getViewCount()
-                 << " | Stock: " << mostViewed[i].getStock()
-                 << "\n";
-        }
-    }
-
-    printSectionTitle("Best-Selling Products");
-    cout << "Showing top " << topN << " products\n";
-    if (bestSelling.empty()) {
-        cout << "No sales data available.\n";
-    } else {
-        for (size_t i = 0; i < bestSelling.size(); ++i) {
-            cout << i + 1 << ". "
-                 << bestSelling[i].getName()
-                 << " | Purchases: " << bestSelling[i].getPurchaseCount()
-                 << " | Price: " << fixed << setprecision(0) << bestSelling[i].getPrice()
-                 << "\n";
-        }
-    }
-
-    printSectionTitle("Active Users");
-    cout << "Showing top " << topN << " users\n";
-    if (activeUsers.empty()) {
-        cout << "No user activity available.\n";
-    } else {
-        for (size_t i = 0; i < activeUsers.size(); ++i) {
-            cout << i + 1 << ". "
-                 << activeUsers[i].getUsername()
-                 << " | Activity Score: " << activeUsers[i].getActivityScore()
-                 << " | Orders: " << activeUsers[i].getOrderHistory().size()
-                 << "\n";
-        }
-    }
-
-    cout << "\nTotal Orders: " << orders.size() << "\n";
-    cout << "Total Revenue: " << fixed << setprecision(0)
-         << statisticsManager.calculateRevenue(orders) << "\n";
-    cout << "=============================\n";
 }
 
 void ECommerceSystem::showMostViewedProducts(int topN) const {

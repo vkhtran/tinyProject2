@@ -50,17 +50,13 @@ public:
     void showCustomerRecommendationsForAdmin(const Admin& admin);
     double calculateCustomerSpending(const std::string& username) const;
 
-    void viewAllProducts() const;
     void viewAllProducts(Customer& customer);
-    void browseProducts(Customer& customer);
-    void searchProducts() const;
     void searchProducts(Customer& customer);
     void showBestSellingProducts(Customer& customer, int topN);
     bool handleProductListAction(Customer& customer, const std::vector<const Product*>& productList);
     void viewProductDetail(Customer& customer, int productId);
     void addToCart(Customer& customer, int productId, int quantity);
     void updateCartMenu(Customer& customer);
-    void removeFromCart(Customer& customer);
     void checkout(Customer& customer, bool requireConfirmation = false);
     void viewOrderHistory(const Customer& customer) const;
     void showRecommendations(Customer& customer, int topN);
@@ -68,7 +64,6 @@ public:
     void addProduct();
     void editProduct(int productId);
     void deleteProduct(int productId);
-    void showStatistics(int topN) const;
     void showMostViewedProducts(int topN) const;
     void showBestSellingProducts(int topN) const;
     void showActiveUsers(int topN) const;

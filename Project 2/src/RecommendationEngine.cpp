@@ -86,12 +86,6 @@ double RecommendationEngine::calculateJaccardSimilarity(
     return static_cast<double>(intersectionCount) / unionCount;
 }
 
-double RecommendationEngine::calculateScore(const Customer& customer, const Product& product) const {
-    (void)customer;
-    (void)product;
-    return 0.0;
-}
-
 double RecommendationEngine::getCategoryBonus(
     const Customer& customer,
     const Product& product,

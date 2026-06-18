@@ -31,7 +31,6 @@ private:
 public:
     RecommendationEngine();
 
-    double calculateScore(const Customer& customer, const Product& product) const;
     double getCategoryBonus(
         const Customer& customer,
         const Product& product,

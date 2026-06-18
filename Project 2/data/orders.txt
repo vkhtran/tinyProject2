@@ -6,3 +6,4 @@
 7|user1|560000|13~iPad Pro Clear Case~2~iPad~2~280000
 9|user1|3.75e+06|1~iPhone 15 Clear Case~1~iPhone~15~250000
 10|userba|490000|7~20W USB-C Charger~4~Charging~1~490000
+11|user1|560000|8~USB-C to USB-C Cable 1m~4~Charging~2~180000;14~iPhone 17 Pro Max Silicone Case~1~iPhone~1~200000
